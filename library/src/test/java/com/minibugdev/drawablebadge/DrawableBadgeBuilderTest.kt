@@ -1,4 +1,4 @@
-package com.minibugdev.drawablebadge
+package com.joeiot.drawablebadge
 
 import android.content.Context
 import android.graphics.Bitmap

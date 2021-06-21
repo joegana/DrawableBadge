@@ -7,15 +7,17 @@ buildscript {
     ext.junit_version = '4.12'
     ext.mockk_version = '1.9.2'
     ext.robolectric_version = '4.4'
+    ext.jfrog_version='4.15.1'
 
     repositories {
         jcenter()
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.1'
+        classpath 'com.android.tools.build:gradle:4.2.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
+//        classpath 'com.github.dcendents:android-maven-gradled-plugin:2.1'
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:$jfrog_version"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -31,4 +33,13 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+
+ext{
+    artifactory_user='justin'
+    artifactory_password='123456'
+    artifactory_contextUrl='http://192.168.50.6:8081/artifactory/'
+
+    ndkVersion = '22.0.7026061'
 }

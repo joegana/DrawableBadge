@@ -1,11 +1,11 @@
 # Drawable Badge
-[![CircleCI](https://circleci.com/gh/minibugdev/DrawableBadge.svg?style=shield)](https://circleci.com/gh/minibugdev/DrawableBadge)
-[![Release](https://jitpack.io/v/minibugdev/DrawableBadge.svg)](https://jitpack.io/#minibugdev/DrawableBadge/2.0.1)
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/minibugdev/DrawableBadge/master/LICENSE)
+[![CircleCI](https://circleci.com/gh/joeiot/DrawableBadge.svg?style=shield)](https://circleci.com/gh/joeiot/DrawableBadge)
+[![Release](https://jitpack.io/v/joeiot/DrawableBadge.svg)](https://jitpack.io/#joeiot/DrawableBadge/2.0.1)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/joeiot/DrawableBadge/master/LICENSE)
 
 Drawable Badge is a android library for adding badges to drawables.
 
-![Drawable Badge Android Library](https://github.com/minibugdev/DrawableBadge/blob/master/screenshot.png?raw=true)
+![Drawable Badge Android Library](https://github.com/joeiot/DrawableBadge/blob/master/screenshot.png?raw=true)
 
 ## Usage
 Generate drawable with badge
@@ -56,7 +56,7 @@ repositories {
 ```
 
 ``` groovy
-compile 'com.github.minibugdev:drawablebadge:2.0.1'
+compile 'com.github.joeiot:drawablebadge:2.0.1'
 ```
 
 

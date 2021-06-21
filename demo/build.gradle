@@ -6,7 +6,7 @@ android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
     defaultConfig {
-        applicationId "com.minibugdev"
+        applicationId "com.joeiot"
         minSdkVersion 15
         targetSdkVersion 30
         versionCode 1

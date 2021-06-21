@@ -1,9 +1,9 @@
-package com.minibugdev.drawablebadge.demo
+package com.joeiot.drawablebadge.demo
 
 import android.os.Bundle
 import android.view.Gravity
 import androidx.appcompat.app.AppCompatActivity
-import com.minibugdev.drawablebadge.DrawableBadge
+import com.joeiot.drawablebadge.DrawableBadge
 import kotlinx.android.synthetic.main.activity_demo.*
 
 class DemoActivity : AppCompatActivity() {
