@@ -13,6 +13,7 @@ import androidx.core.graphics.drawable.DrawableCompat
 
 class DrawableBadge private constructor(val context: Context,
                                         @ColorInt val textColor: Int,
+										var textFont:  Typeface?,
                                         @ColorInt val badgeColor: Int,
                                         @ColorInt val badgeBorderColor: Int,
                                         val badgeBorderSize: Float,
@@ -27,6 +28,7 @@ class DrawableBadge private constructor(val context: Context,
 	class Builder(private val context: Context) {
 
 		@ColorInt private var textColor: Int? = null
+	    private var textFont: Typeface? = null
 		@ColorInt private var badgeColor: Int? = null
 		@ColorInt private var badgeBorderColor: Int? = null
 		private var badgeBorderSize: Float? = null
@@ -70,7 +72,7 @@ class DrawableBadge private constructor(val context: Context,
 		fun bitmap(bitmap: Bitmap) = apply { this.bitmap = bitmap }
 
 		fun textColor(@ColorRes textColorRes: Int) = apply { this.textColor = ContextCompat.getColor(context, textColorRes) }
-
+		fun textFont(@FontRes fontRes: Int) = apply { this.textFont = ResourcesCompat.getFont(context,fontRes) }
 		fun badgeColor(@ColorRes badgeColorRes: Int) = apply { this.badgeColor = ContextCompat.getColor(context, badgeColorRes) }
 
 		fun badgeBorderColor(@ColorRes badgeBorderColorRes: Int) = apply { this.badgeBorderColor = ContextCompat.getColor(context, badgeBorderColorRes) }
@@ -120,6 +122,7 @@ class DrawableBadge private constructor(val context: Context,
 					context = context,
 					bitmap = bitmap!!,
 					textColor = textColor!!,
+				    textFont = textFont,
 					badgeColor = badgeColor!!,
 					badgeBorderColor = badgeBorderColor!!,
 					badgeBorderSize = badgeBorderSize!!,
@@ -139,10 +142,22 @@ class DrawableBadge private constructor(val context: Context,
 		val sourceBitmap = bitmap
 		val width = sourceBitmap.width
 		val height = sourceBitmap.height
-		val output = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+
+		val dRect = Rect(0, 0, width, height)
+		var cReact = Rect(dRect)
+
+		var badgeRect = getBadgeRect(dRect)
+		cReact.union(badgeRect)
+
+		val cWidth  = cReact.width()
+		val cHeight = cReact.height()
+
+		cReact.set(0,0,cWidth, cHeight)
+
+		val output = Bitmap.createBitmap(cWidth,cHeight, Bitmap.Config.ARGB_8888)
 
 		val canvas = Canvas(output)
-		val rect = Rect(0, 0, width, height)
+
 		val paint = Paint().apply {
 			isAntiAlias = true
 			isFilterBitmap = true
@@ -150,10 +165,11 @@ class DrawableBadge private constructor(val context: Context,
 			textAlign = Paint.Align.CENTER
 			color = badgeColor
 		}
-		canvas.drawBitmap(sourceBitmap, rect, rect, paint)
+		canvas.drawBitmap(sourceBitmap, dRect, dRect, paint)
 
-		val badgeRect = getBadgeRect(rect)
-		canvas.drawOval(badgeRect, paint)
+		cReact.moveIn(badgeRect)
+
+		canvas.drawOval(RectF(badgeRect), paint)
 
 		if (isShowBorder) {
 			val paintBorder = Paint().apply {
@@ -165,7 +181,7 @@ class DrawableBadge private constructor(val context: Context,
 				color = badgeBorderColor
 				strokeWidth = badgeBorderSize
 			}
-			canvas.drawOval(badgeRect, paintBorder)
+			canvas.drawOval(RectF(badgeRect), paintBorder)
 		}
 
 		if(isShowCounter) {
@@ -184,6 +200,9 @@ class DrawableBadge private constructor(val context: Context,
 				this.isAntiAlias = true
 				this.color = textColor
 				this.textSize = textSize
+				textFont?.also {
+					this.typeface = it
+				}
 			}
 
 			val x = badgeRect.centerX() - (textPaint.measureText(text) / 2f)
@@ -194,14 +213,14 @@ class DrawableBadge private constructor(val context: Context,
 		return BitmapDrawable(resources, output)
 	}
 
-	private fun getBadgeRect(bound: Rect): RectF {
+	private fun getBadgeRect(bound: Rect): Rect {
 		val borderSize = if (isShowBorder) badgeBorderSize else 0f
 		val adjustSpace = borderSize + badgeMargin
 
 		val dest = Rect()
 		val size = badgeSize.toInt()
 		Gravity.apply(badgeGravity, size, size, bound, adjustSpace.toInt(), adjustSpace.toInt(), dest)
-		return RectF(dest)
+		return Rect(dest)
 	}
 
 	companion object {

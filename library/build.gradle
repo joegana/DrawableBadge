@@ -6,7 +6,7 @@ group = 'com.github.joeiot'
 
 ext{
     package_name = 'com.joeiot'
-    artifactVersion = '2.0.1'//release包发布的版本
+    artifactVersion = '2.0.3'//release包发布的版本
     artifactGroup = "drawablebadge"
     artifactFilePath = "${project.buildDir}/outputs/aar/${project.name}-" +
             "${(artifactVersion.endsWith('SNAPSHOT') || artifactVersion.endsWith('snapshot'))?'debug':'release'}.aar"

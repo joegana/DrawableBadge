@@ -41,7 +41,7 @@ class DemoActivity : AppCompatActivity() {
 			.badgeBorderColor(R.color.borderColor)
 			.badgeBorderSize(R.dimen.badge_border_size)
 			.maximumCounter(99)
-			.badgeMargin(10f)
+			.badgeMargin(-35f)
 			.showCounter(true)
 			.build()
 			.get(number)
