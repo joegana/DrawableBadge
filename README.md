@@ -16,6 +16,7 @@ val drawable = DrawableBadge.Builder(context)
     .badgeSize(R.dimen.badge_size)
     .badgeGravity(Gravity.CENTER_VERTICAL or Gravity.Start)
     .badgeMargin(R.dimen.badge_margin)
+    .textFont(R.font.bold)
     .textColor(R.color.textColor)
     .showBorder(true)
     .badgeBorderColor(R.color.badgeBorderColor)
@@ -35,6 +36,7 @@ imageViewBadge.setImageDrawable(drawable)
 - `drawable`: Drawable to added badges.
 - `bitmap`: Bitmap to added badges.
 - `textColor`: Badge text color resource id, default `#FFFFFF`.
+- `textFont`: Badge text font resource id, default `null`.
 - `badgeColor`: Badge color resource id , default `#FF0000`.
 - `badgeSize`: Badge size supported `@DimenRes` or `@Px`, default `16dp`.
 - `badgeGravity`: Position of badge by [Android Gravity](https://developer.android.com/reference/android/view/Gravity) which need to added. default `Gravity.TOP or Gravity.END`.
@@ -51,12 +53,12 @@ imageViewBadge.setImageDrawable(drawable)
 ## Download
 ``` groovy
 repositories {
-    maven { url 'https://jitpack.io' }
+    mavenCenter()
 }
 ```
 
 ``` groovy
-compile 'com.github.joeiot:drawablebadge:2.0.1'
+implementation 'io.github.joeiot:drawablebadge:2.0.4'
 ```
 
 
