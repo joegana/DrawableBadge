@@ -53,7 +53,7 @@ imageViewBadge.setImageDrawable(drawable)
 ## Download
 ``` groovy
 repositories {
-    mavenCenter()
+     mavenCentral()gt
 }
 ```
 
