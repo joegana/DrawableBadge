@@ -11,6 +11,9 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
 
+/**
+ * This is a tool class that can draw some badge number on Drawable
+ */
 class DrawableBadge private constructor(val context: Context,
                                         @ColorInt val textColor: Int,
 										var textFont:  Typeface?,
@@ -48,6 +51,9 @@ class DrawableBadge private constructor(val context: Context,
 			return bitmap
 		}
 
+		/**
+		 * set Drawable resource id
+		 */
 		fun drawableResId(@DrawableRes drawableRes: Int) = apply {
 			val res = context.resources
 			bitmap = BitmapFactory.decodeResource(res, drawableRes)
@@ -61,6 +67,9 @@ class DrawableBadge private constructor(val context: Context,
 			}
 		}
 
+		/**
+		 * set Drawable
+		 */
 		fun drawable(drawable: Drawable): Builder = apply {
 			val drawableCompat = DrawableCompat.wrap(drawable)
 			bitmap = when (drawableCompat) {
@@ -69,28 +78,61 @@ class DrawableBadge private constructor(val context: Context,
 			}
 		}
 
+		/**
+		 * set Bitmap
+		 */
 		fun bitmap(bitmap: Bitmap) = apply { this.bitmap = bitmap }
 
+		/**
+		 *  set badge text color
+		 */
 		fun textColor(@ColorRes textColorRes: Int) = apply { this.textColor = ContextCompat.getColor(context, textColorRes) }
+
+		/**
+		 * set badge test font
+		 */
 		fun textFont(@FontRes fontRes: Int) = apply { this.textFont = ResourcesCompat.getFont(context,fontRes) }
+
+		/**
+		 * set badge background color
+		 */
 		fun badgeColor(@ColorRes badgeColorRes: Int) = apply { this.badgeColor = ContextCompat.getColor(context, badgeColorRes) }
 
+		/**
+		 * set badge border color
+		 */
 		fun badgeBorderColor(@ColorRes badgeBorderColorRes: Int) = apply { this.badgeBorderColor = ContextCompat.getColor(context, badgeBorderColorRes) }
 
+		/**
+		 *  set badge border size using dimen resource
+		 */
 		fun badgeBorderSize(@DimenRes badgeBorderSize: Int) = apply {
 			this.badgeBorderSize = context.resources.getDimensionPixelOffset(badgeBorderSize)
 				.toFloat()
 		}
 
+		/**
+		 * set badge border size
+		 */
 		fun badgeBorderSize(@Px badgeBorderSize: Float) = apply { this.badgeBorderSize = badgeBorderSize }
 
+		/**
+		 * set badge size
+		 */
 		fun badgeSize(@DimenRes badgeSize: Int) = apply {
 			this.badgeSize = context.resources.getDimensionPixelOffset(badgeSize)
 				.toFloat()
 		}
 
+		/**
+		 * set badge size
+		 */
 		fun badgeSize(@Px badgeSize: Float) = apply { this.badgeSize = badgeSize }
 
+
+		/**
+		 * set badge gravity relative to drawable
+		 */
 		fun badgeGravity(badgeGravity: Int) = apply { this.badgeGravity = badgeGravity }
 
 		fun badgeMargin(@DimenRes badgeMargin: Int) = apply {
@@ -98,12 +140,24 @@ class DrawableBadge private constructor(val context: Context,
 				.toFloat()
 		}
 
+		/**
+		 * set badge margin relative to drawable
+		 */
 		fun badgeMargin(@Px badgeMargin: Float) = apply { this.badgeMargin = badgeMargin }
 
+		/**
+		 * set whether show badge border
+		 */
 		fun showBorder(isShowBorder: Boolean) = apply { this.isShowBorder = isShowBorder }
 
+		/**
+		 * set max badge number showing on
+		 */
 		fun maximumCounter(maximumCounter: Int) = apply { this.maximumCounter = maximumCounter }
 
+		/**
+		 *  set badge showing color
+		 */
 		fun showCounter(isShowCounter: Boolean) = apply { this.isShowCounter = isShowCounter }
 
 		fun build(): DrawableBadge {
