@@ -5,6 +5,7 @@ import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.text.TextPaint
+import android.text.TextUtils
 import android.view.Gravity
 import androidx.annotation.*
 import androidx.core.content.ContextCompat
@@ -15,6 +16,7 @@ import androidx.core.graphics.drawable.DrawableCompat
  * This is a tool class that can draw some badge number on Drawable
  */
 class DrawableBadge private constructor(val context: Context,
+										var textSize: Float?,
                                         @ColorInt val textColor: Int,
 										var textFont:  Typeface?,
                                         @ColorInt val badgeColor: Int,
@@ -31,6 +33,7 @@ class DrawableBadge private constructor(val context: Context,
 	class Builder(private val context: Context) {
 
 		@ColorInt private var textColor: Int? = null
+		private var textSize: Float? = null
 	    private var textFont: Typeface? = null
 		@ColorInt private var badgeColor: Int? = null
 		@ColorInt private var badgeBorderColor: Int? = null
@@ -82,6 +85,16 @@ class DrawableBadge private constructor(val context: Context,
 		 * set Bitmap
 		 */
 		fun bitmap(bitmap: Bitmap) = apply { this.bitmap = bitmap }
+
+		/**
+		 *  set badge text Size
+		 */
+		fun textSize(textSize: Float?) = apply { this.textSize = textSize }
+
+		/**
+		 *  set badge text Size
+		 */
+		fun textSize(@DimenRes dimeRes: Int) = apply { this.textSize = context.resources.getDimension(dimeRes) }
 
 		/**
 		 *  set badge text color
@@ -175,6 +188,7 @@ class DrawableBadge private constructor(val context: Context,
 			return DrawableBadge(
 					context = context,
 					bitmap = bitmap!!,
+				    textSize = textSize,
 					textColor = textColor!!,
 				    textFont = textFont,
 					badgeColor = badgeColor!!,
@@ -189,9 +203,10 @@ class DrawableBadge private constructor(val context: Context,
 		}
 	}
 
-	fun get(counter: Int): Drawable {
+
+	fun get(text: String?): Drawable {
 		val resources = context.resources
-		if (counter == 0) return BitmapDrawable(resources, bitmap)
+		if (TextUtils.isEmpty(text) or (text?.toIntOrNull() == 0)) return BitmapDrawable(resources, bitmap)
 
 		val sourceBitmap = bitmap
 		val width = sourceBitmap.width
@@ -239,15 +254,20 @@ class DrawableBadge private constructor(val context: Context,
 		}
 
 		if(isShowCounter) {
-			val textSize: Float
-			val text: String
-			val max = if (maximumCounter > MAXIMUM_COUNT) MAXIMUM_COUNT else maximumCounter
-			if (counter > max) {
-				textSize = badgeRect.height() * 0.45f
-				text = "$max+"
-			} else {
-				textSize = badgeRect.height() * 0.55f
-				text = counter.toString()
+			var textSize: Float
+			var tx = text?:""
+			var counter = text?.toIntOrNull()?:0
+			if(counter != 0){
+				val max = if (maximumCounter > MAXIMUM_COUNT) MAXIMUM_COUNT else maximumCounter
+				if (counter > max) {
+					textSize = badgeRect.height() * 0.45f
+					tx = "$max+"
+				} else {
+					textSize = badgeRect.height() * 0.55f
+					tx = counter.toString()
+				}
+			}else{
+				textSize = this.textSize?:badgeRect.height() * 0.55f
 			}
 
 			val textPaint = TextPaint().apply {
@@ -261,11 +281,13 @@ class DrawableBadge private constructor(val context: Context,
 
 			val x = badgeRect.centerX() - (textPaint.measureText(text) / 2f)
 			val y = badgeRect.centerY() - (textPaint.ascent() + textPaint.descent()) * 0.5f
-			canvas.drawText(text, x, y, textPaint)
+			canvas.drawText(tx, x, y, textPaint)
 		}
 
 		return BitmapDrawable(resources, output)
 	}
+
+	fun get(counter: Int) = get(counter.toString())
 
 	private fun getBadgeRect(bound: Rect): Rect {
 		val borderSize = if (isShowBorder) badgeBorderSize else 0f
